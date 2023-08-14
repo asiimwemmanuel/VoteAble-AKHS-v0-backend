@@ -14,7 +14,7 @@ const helmet = require('helmet');
 dotenv.config({ path: "config.env" });
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "voteable-app.onrender.com",
     credentials: true,
   })
 );
