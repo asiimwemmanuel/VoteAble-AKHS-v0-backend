@@ -45,7 +45,7 @@ module.exports.createPoll = async function (req, res, next) {
   const poll = await Poll.create({
     question: req.body.question,
     options: req.body.options,
-    owner: req.body.owner
+    owner: req.body.owner.trim().toLowerCase()
   });
 
   console.log(poll);
@@ -109,13 +109,14 @@ module.exports.vote = async function (req, res, next) {
     return next(new ErrorResponse("Login First to access polls", 401));
   }
   console.log(req.body.user);
-  if (poll.voted.includes(req.body.user.name)) {
+
+  if (poll.voted.includes(req.body.user.name.trim().toLowerCase())) {
     return next(new ErrorResponse("Already voted", 401));
   }
   for (let i = 0; i < poll.options.length; i++) {
     if (poll.options[i].text == req.body.answer) {
       poll.options[i].votes += 1;
-      poll.voted.push(req.body.user.name);
+      poll.voted.push(req.body.user.name.trim().toLowerCase());
       await poll.save();
     }
   }
