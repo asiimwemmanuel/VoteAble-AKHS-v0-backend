@@ -45,8 +45,8 @@ module.exports.createPoll = async function (req, res, next) {
   const poll = await Poll.create({
     question: req.body.question,
     options: req.body.options,
-    owner: req.body.owner.trim().toLowerCase(),
-    Class: req.body.Class.trim().toLowerCase(),
+    owner: req.body.owner.name.trim().toLowerCase(),
+    class: req.body.class.trim().toLowerCase(),
     house: req.body.house.trim().toLowerCase()
   });
 

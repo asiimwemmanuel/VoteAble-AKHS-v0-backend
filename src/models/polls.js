@@ -31,7 +31,7 @@ const pollSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
-  Class: {
+  class: {
     type: String,
     required: true,
   },
