@@ -31,6 +31,14 @@ const pollSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  Class: {
+    type: String,
+    required: true,
+  },
+  house: {
+    type: String,
+    required: true
+  }
 });
 
 const Poll = mongoose.model("Poll", pollSchema);
