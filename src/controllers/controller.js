@@ -85,10 +85,7 @@ module.exports.myPolls = async function (req, res, next) {
 
 
 
-  Polls.push(pollsAll);
-  Polls.push(pollsClass);
-  Polls.push(pollsHouse);
-
+  Polls = [...pollsAll, ...pollsClass, ...pollsHouse];
 
   if (Polls.length == 0) {
     return next(new ErrorResponse("No polls found", 404));
