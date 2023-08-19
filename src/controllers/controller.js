@@ -60,15 +60,44 @@ module.exports.createPoll = async function (req, res, next) {
 
 // Complete
 module.exports.myPolls = async function (req, res, next) {
-  const Polls = await Poll.find();
+  if (!req.body.class) {
+    return next(new ErrorResponse("Please enter a class", 401));
+  }
 
-  const sortedPolls = Polls.sort((a, b) => {
-    return b.created - a.created;
+  if (!req.body.house) {
+    return next(new ErrorResponse("Please enter a house", 401));
+  }
+
+  const Polls = [];
+
+  const pollsAll = await Poll.find({
+    class: 'n/a',
+    house: 'n/a'
   });
+
+  const pollsClass = await Poll.find({
+    class: req.body.class
+  });
+
+  const pollsHouse = await Poll.find({
+    house: req.body.house
+  });
+
+
+
+  Polls.push(pollsAll);
+  Polls.push(pollsClass);
+  Polls.push(pollsHouse);
+
 
   if (Polls.length == 0) {
     return next(new ErrorResponse("No polls found", 404));
   }
+
+
+  const sortedPolls = Polls.sort((a, b) => {
+    return b.created - a.created;
+  });
 
   res.status(200).json({
     success: true,

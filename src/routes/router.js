@@ -24,7 +24,7 @@ router.post("/v1/create-poll", createPoll);
 router.delete("/v1/delete-poll/:pollId", deletePoll);
 router.delete("/v1/delete-poll-chain/:id", deletePollChain);
 router.post("/v1/vote/:pollId", vote);
-router.get("/v1/myPolls", myPolls);
+router.post("/v1/myPolls", myPolls);
 router.get("/v1/poll/:pollId", findPoll);
 router.get("/v1/voted-users/:pollId", votedUsers);
 router.post("/v1/create-checkout-session", donate);
