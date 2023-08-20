@@ -60,11 +60,11 @@ module.exports.createPoll = async function (req, res, next) {
 
 // Complete
 module.exports.myPolls = async function (req, res, next) {
-  if (!req.body.class) {
+  if (!req.body.class || req.body.class == null) {
     return next(new ErrorResponse("Please enter a class", 401));
   }
 
-  if (!req.body.house) {
+  if (!req.body.house || req.body.house == null) {
     return next(new ErrorResponse("Please enter a house", 401));
   }
 
