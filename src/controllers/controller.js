@@ -68,24 +68,26 @@ module.exports.myPolls = async function (req, res, next) {
     return next(new ErrorResponse("Please enter a house", 401));
   }
 
-  const Polls = [];
+  // const Polls = [];
 
-  const pollsAll = await Poll.find({
-    class: 'n/a',
-    house: 'n/a'
-  });
+  // const pollsAll = await Poll.find({
+  //   class: 'n/a',
+  //   house: 'n/a'
+  // });
 
-  const pollsClass = await Poll.find({
-    class: req.body.class.trim().toLowerCase()
-  });
+  // const pollsClass = await Poll.find({
+  //   class: req.body.class.trim().toLowerCase()
+  // });
 
-  const pollsHouse = await Poll.find({
-    house: req.body.house.trim().toLowerCase()
-  });
+  // const pollsHouse = await Poll.find({
+  //   house: req.body.house.trim().toLowerCase()
+  // });
 
 
 
-  Polls = [...pollsAll, ...pollsClass, ...pollsHouse];
+  // Polls = [...pollsAll, ...pollsClass, ...pollsHouse];
+
+  const Polls = await Poll.find();
 
   if (Polls.length == 0) {
     return next(new ErrorResponse("No polls found", 404));
