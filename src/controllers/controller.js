@@ -79,13 +79,13 @@ module.exports.myPolls = async function (req, res, next) {
     class: req.body.class.trim().toLowerCase()
   });
 
-  // const pollsHouse = await Poll.find({
-  //   house: req.body.house.trim().toLowerCase()
-  // });
+  const pollsHouse = await Poll.find({
+    house: req.body.house.trim().toLowerCase()
+  });
 
 
 
-  const Polls = [...pollsClass];
+  const Polls = [...pollsClass, ...pollsHouse];
 
   // const Polls = await Poll.find();
 
