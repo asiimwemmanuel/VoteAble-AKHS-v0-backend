@@ -36,6 +36,15 @@ const userSchema = new Schema({
   subscriptionExpiry: {
     type: Date,
     default: new Date(Date.now())
+  },
+  Student_ID: {
+    type: String,
+  },
+  class: {
+    type: String,
+  },
+  house: {
+    type: String,
   }
 });
 

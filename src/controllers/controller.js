@@ -60,13 +60,28 @@ module.exports.createPoll = async function (req, res, next) {
 
 // Complete
 module.exports.myPolls = async function (req, res, next) {
-  if (!req.body.class || req.body.class == null) {
-    return next(new ErrorResponse("Please enter a class", 401));
+  const student = await User.findOne({ Student_ID: req.body.Student_ID }).select("+password");
+
+
+  if (student == null) {
+    return next(new ErrorResponse("Student account does not exist", 401));
   }
 
-  if (!req.body.house || req.body.house == null) {
-    return next(new ErrorResponse("Please enter a house", 401));
+  const isMatch = await student.matchPassword(req.body.password);
+
+  if (!isMatch) {
+    return next(new ErrorResponse("Invalid Student password", 401));
   }
+
+  // if(req.body.name !== student.name || req.body.password !== student.password)
+
+  // if (!req.body.class || req.body.class == null) {
+  //   return next(new ErrorResponse("Please enter a class", 401));
+  // }
+
+  // if (!req.body.house || req.body.house == null) {
+  //   return next(new ErrorResponse("Please enter a house", 401));
+  // }
 
   // const Polls = [];
 
@@ -76,11 +91,11 @@ module.exports.myPolls = async function (req, res, next) {
   });
 
   const pollsClass = await Poll.find({
-    class: req.body.class.trim().toLowerCase()
+    class: student.class
   });
 
   const pollsHouse = await Poll.find({
-    house: req.body.house.trim().toLowerCase()
+    house: student.house
   });
 
 
@@ -106,10 +121,6 @@ module.exports.myPolls = async function (req, res, next) {
 
 // Complete
 module.exports.findPoll = async function (req, res, next) {
-  if (!ObjectId.isValid(req.params.pollId)) {
-    return next(new ErrorResponse("No poll found", 404));
-  }
-
   // if (!req.body.user) {
   //   return next(new ErrorResponse("Login First to access polls", 401));
   // }
@@ -126,6 +137,22 @@ module.exports.findPoll = async function (req, res, next) {
 
 // Complete
 module.exports.vote = async function (req, res, next) {
+  const student = await User.findOne({ Student_ID: req.body.Student_ID }).select("+password");
+
+  if (student == null) {
+    return next(new ErrorResponse("Student account does not exist", 401));
+  }
+
+  const isMatch = await student.matchPassword(req.body.password);
+
+  if (!isMatch) {
+    return next(new ErrorResponse("Invalid Student password", 401));
+  }
+
+  if (!ObjectId.isValid(req.params.pollId)) {
+    return next(new ErrorResponse("No poll found", 404));
+  }
+
   if (!ObjectId.isValid(req.params.pollId)) {
     return next(new ErrorResponse("No poll found", 404));
   }
@@ -135,18 +162,14 @@ module.exports.vote = async function (req, res, next) {
   if (!req.body.answer) {
     return next(new ErrorResponse("Please choose an option", 400));
   }
-  if (req.body.user.name == null) {
-    return next(new ErrorResponse("Login First to access polls", 401));
-  }
-  console.log(req.body.user);
 
-  if (poll.voted.includes(req.body.user.name.trim().toLowerCase())) {
+  if (poll.voted.includes(student.name.trim().toLowerCase())) {
     return next(new ErrorResponse("Already voted", 401));
   }
   for (let i = 0; i < poll.options.length; i++) {
     if (poll.options[i].text == req.body.answer) {
       poll.options[i].votes += 1;
-      poll.voted.push(req.body.user.name.trim().toLowerCase());
+      poll.voted.push(student.name.trim().toLowerCase());
       await poll.save();
     }
   }
