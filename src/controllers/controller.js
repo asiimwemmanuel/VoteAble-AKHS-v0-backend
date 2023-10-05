@@ -5,9 +5,10 @@ const User = require("../models/user.js");
 const PollChain = require("../models/pollchain.js");
 const ObjectId = require("mongoose").Types.ObjectId;
 const stripe = require('stripe')('sk_test_51JJGl0FoXys89NW04r4hH2267S50MXfFvo5fjbpt9r9fLjbF8EhSIQ4zotZimfKiDv3Wch2ckzz5Fr0kKZqHLFq800QGBKCc1k');
-const MY_DOMAIN = 'https://voteable-app.onrender.com';
+const MY_DOMAIN = 'http://localhost:5173';
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 
 
@@ -30,11 +31,13 @@ function generateRandomPassword(length) {
 }
 
 module.exports.changeUsersPasswords = async function (req, res, next) {
-  const users = await User.find();
+  console.log('Started');
+  const users = await User.find().select("+password");
 
   for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-    user.password = generateRandomPassword(8);
+    let user = users[i];
+    const password = generateRandomPassword(8);
+    user.password = password;
     await user.save();
   }
   console.log('Doneeeee!');
@@ -77,7 +80,7 @@ module.exports.get_user = async function (req, res, next) {
     return next(new ErrorResponse("Invalid student ID, please try again", 400));
   }
 
-  const isMatch = await user.matchPassword(req.body.password);
+  const isMatch = user.password.trim() == `${ req.body.password }`.trim();
 
   if (!isMatch) {
     return next(new ErrorResponse("Invalid password", 400));
@@ -99,7 +102,8 @@ module.exports.myPolls = async function (req, res, next) {
     return next(new ErrorResponse("Student account does not exist", 401));
   }
 
-  const isMatch = await student.matchPassword(req.body.password);
+  const isMatch = student.password.trim() == `${ req.body.password }`.trim();
+
 
   if (!isMatch) {
     return next(new ErrorResponse("Invalid Student password", 401));
@@ -141,13 +145,13 @@ module.exports.myPolls = async function (req, res, next) {
   }
 
 
-  const sortedPolls = Polls.sort((a, b) => {
-    return b.created - a.created;
-  });
+  // const sortedPolls = Polls.sort((a, b) => {
+  //   return b.created - a.created;
+  // });
 
   res.status(200).json({
     success: true,
-    data: sortedPolls,
+    data: Polls,
     student: student
   });
 };
@@ -176,7 +180,9 @@ module.exports.vote = async function (req, res, next) {
     return next(new ErrorResponse("Student account does not exist", 401));
   }
 
-  const isMatch = await student.matchPassword(req.body.password);
+  const isMatch = student.password.trim() == `${ req.body.password }`.trim();
+
+
 
   if (!isMatch) {
     return next(new ErrorResponse("Invalid Student password", 401));

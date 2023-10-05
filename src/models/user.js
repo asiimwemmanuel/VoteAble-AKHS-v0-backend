@@ -48,14 +48,14 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt(10);
+// userSchema.pre("save", async function (next) {
+//   const salt = await bcrypt.genSalt(10);
 
-  if (!this.isModified("password")) {
-    next();
-  }
-  this.password = await bcrypt.hash(this.password, salt);
-});
+//   if (!this.isModified("password")) {
+//     next();
+//   }
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
 
 userSchema.methods.getSignedJWT = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
