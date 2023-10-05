@@ -14,23 +14,31 @@ const fs = require('fs');
 let amount = 0;
 
 //I just made a massive change in my Database with just a few lines of code 😂
-// module.exports.changeVotedArray = async function (req, res, next) {
-//   const polls = await Poll.find();
 
-//   for (let i = 0; i < polls.length; i++) {
-//     const poll = polls[i];
-//     // console.log(poll);
-//     for (let j = 0; j < poll.voted.length; j++) {
-//       const name = await User.findById(poll.voted[j]);
-//       poll.voted[j] = name.name;
-//     }
-//     await poll.save();
-//     console.log(poll.voted);
-//   }
-//   res.json({
-//     success: true
-//   });
-// };
+function generateRandomPassword(length) {
+  // Define a character set for the password
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
+
+  let password = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = crypto.randomInt(0, charset.length);
+    password += charset.charAt(randomIndex);
+  }
+
+  return password;
+}
+
+module.exports.changeUsersPasswords = async function (req, res, next) {
+  const users = await User.find();
+
+  for (let i = 0; i < polls.length; i++) {
+    const user = users[i];
+    user.password = generateRandomPassword(8);
+    await user.save();
+  }
+  console.log('Doneeeee!');
+};
 
 
 // Complete

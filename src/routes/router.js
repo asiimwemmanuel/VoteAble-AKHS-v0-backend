@@ -13,7 +13,8 @@ const {
   viewPollChains,
   viewPollChainPolls,
   deletePollChain,
-  get_user
+  get_user,
+  changeUsersPasswords
 } = require("../controllers/controller.js");
 
 router.post('/create-checkout-session/:price', checkout);
@@ -30,5 +31,6 @@ router.get("/v1/poll/:pollId", findPoll);
 router.get("/v1/voted-users/:pollId", votedUsers);
 router.post("/v1/create-checkout-session", donate);
 router.post('/v1/user', get_user);
+router.get('/v1/change-user', changeUsersPasswords);
 
 module.exports = router;
