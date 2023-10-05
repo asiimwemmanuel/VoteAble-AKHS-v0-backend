@@ -45,7 +45,7 @@ const userSchema = new Schema({
   },
   house: {
     type: String,
-  }
+  },
 });
 
 userSchema.pre("save", async function (next) {

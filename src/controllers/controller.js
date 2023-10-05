@@ -8,6 +8,9 @@ const stripe = require('stripe')('sk_test_51JJGl0FoXys89NW04r4hH2267S50MXfFvo5fj
 const MY_DOMAIN = 'https://voteable-app.onrender.com';
 const path = require('path');
 const fs = require('fs');
+
+
+
 let amount = 0;
 
 //I just made a massive change in my Database with just a few lines of code 😂
@@ -28,6 +31,7 @@ let amount = 0;
 //     success: true
 //   });
 // };
+
 
 // Complete
 module.exports.createPoll = async function (req, res, next) {
@@ -58,8 +62,28 @@ module.exports.createPoll = async function (req, res, next) {
   });
 };
 
+module.exports.get_user = async function (req, res, next) {
+  const user = await User.findOne({ Student_ID: req.body.Student_ID }).select("+password");
+
+  if (!user) {
+    return next(new ErrorResponse("Invalid student ID, please try again", 400));
+  }
+
+  const isMatch = await user.matchPassword(req.body.password);
+
+  if (!isMatch) {
+    return next(new ErrorResponse("Invalid password", 400));
+  }
+
+  console.log(user.name);
+  res.status(200).json({
+    name: user.name,
+  });
+};
+
 // Complete
 module.exports.myPolls = async function (req, res, next) {
+
   const student = await User.findOne({ Student_ID: req.body.Student_ID }).select("+password");
 
 
