@@ -32,7 +32,7 @@ function generateRandomPassword(length) {
 module.exports.changeUsersPasswords = async function (req, res, next) {
   const users = await User.find();
 
-  for (let i = 0; i < polls.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     const user = users[i];
     user.password = generateRandomPassword(8);
     await user.save();
