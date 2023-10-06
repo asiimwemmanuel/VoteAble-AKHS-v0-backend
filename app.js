@@ -57,13 +57,17 @@ mongoose
 //     console.log(err.message);
 //   });
 
-await User.create({
-  name: 'NAYONIKA ABHILASH',
-  password: 'ttgh78',
-  Student_ID: '00012298',
-  house: 'eagles',
-  class: 'y8'
-});
+async function New_user() {
+  await User.create({
+    name: 'NAYONIKA ABHILASH',
+    password: 'ttgh78',
+    Student_ID: '00012298',
+    house: 'eagles',
+    class: 'y8'
+  });
+}
+
+New_user();
 
 
 
