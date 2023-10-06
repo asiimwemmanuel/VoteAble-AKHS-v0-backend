@@ -56,46 +56,45 @@ mongoose
 //     console.log(err.message);
 //   });
 
-// function generateRandomPassword(length) {
-//   // Define a character set for the password
-//   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
+function generateRandomPassword(length) {
+  // Define a character set for the password
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
 
-//   let password = '';
+  let password = '';
 
-//   for (let i = 0; i < length; i++) {
-//     const randomIndex = crypto.randomInt(0, charset.length);
-//     password += charset.charAt(randomIndex);
-//   }
+  for (let i = 0; i < length; i++) {
+    const randomIndex = crypto.randomInt(0, charset.length);
+    password += charset.charAt(randomIndex);
+  }
 
-//   return password;
-// }
+  return password;
+}
 
-// async function readExcel() {
-//   try {
-//     await workbook.xlsx.readFile('./AKHS-CLASS-LISTS-TERM-1-2023.xlsx'); // Replace with your Excel file's name
+async function readExcel() {
+  try {
+    await workbook.xlsx.readFile('./AKHS CLASS LISTS TERM 1 2023 copy.xlsx'); // Replace with your Excel file's name
 
-//     const worksheet = workbook.getWorksheet(1); // Assuming you're reading the first sheet
+    const worksheet = workbook.getWorksheet(1); // Assuming you're reading the first sheet
 
-//     worksheet.eachRow(async (row, rowNumber) => {
-//       // Process each row
-//       const rowData = row.values;
+    worksheet.eachRow(async (row, rowNumber) => {
+      // Process each row
+      const rowData = row.values;
 
-//       const user_Details = {
-//         name: `${ rowData[2] }`.trim(),
-//         Student_ID: `${ rowData[3] }`.trim(),
-//         class: `${ rowData[4] }`.trim(),
-//         house: `${ rowData[6] }`.toLowerCase().trim(),
-//         password: generateRandomPassword(8)
-//       };
-//       const user = await User.create(user_Details);
-//       console.log(user_Details);
-//     });
-//   } catch (error) {
-//     console.error('Error reading Excel file:', error);
-//   }
-// }
-
-// readExcel();
+      const user_Details = {
+        name: `${ rowData[2] }`.trim(),
+        Student_ID: `${ rowData[3] }`.trim(),
+        class: `${ rowData[4] }`.trim(),
+        house: `${ rowData[6] }`.toLowerCase().trim(),
+        password: generateRandomPassword(8)
+      };
+      const user = await User.create(user_Details);
+      console.log(user_Details);
+    });
+  } catch (error) {
+    console.error('Error reading Excel file:', error);
+  }
+}
+readExcel();
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

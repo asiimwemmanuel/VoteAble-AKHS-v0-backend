@@ -16,20 +16,6 @@ let amount = 0;
 
 //I just made a massive change in my Database with just a few lines of code 😂
 
-function generateRandomPassword(length) {
-  // Define a character set for the password
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
-
-  let password = '';
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = crypto.randomInt(0, charset.length);
-    password += charset.charAt(randomIndex);
-  }
-
-  return password;
-}
-
 module.exports.changeUsersPasswords = async function (req, res, next) {
   console.log('Started');
   const users = await User.find().select("+password");
