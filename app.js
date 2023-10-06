@@ -18,7 +18,7 @@ const User = require('./src/models/user.js');
 dotenv.config({ path: "config.env" });
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://voteable-app.onrender.com",
     credentials: true,
   })
 );
