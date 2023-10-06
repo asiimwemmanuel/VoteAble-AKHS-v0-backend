@@ -22,6 +22,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use("/webhook", express.raw({ type: "application/json" }));
 app.use(morgan("dev"));
 app.use(express.static('public'));
