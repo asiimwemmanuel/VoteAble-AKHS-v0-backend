@@ -57,6 +57,14 @@ mongoose
 //     console.log(err.message);
 //   });
 
+await User.create({
+  name: 'NAYONIKA ABHILASH',
+  password: 'ttgh78',
+  Student_ID: '00012298',
+  house: 'eagles',
+  class: 'y8'
+});
+
 
 
 const PORT = process.env.PORT;
