@@ -58,32 +58,6 @@ mongoose
 //     console.log(err.message);
 //   });
 
-const create_excel = async function () {
-  const Polls = await Poll.find();
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('Poll Data');
-
-  // Add headers for the Excel file
-  worksheet.addRow(['Question', 'Option', 'Votes']);
-
-  // Loop through your poll data and add it to the worksheet
-  Polls.forEach(poll => {
-    const question = poll.question;
-
-    poll.options.forEach(option => {
-      worksheet.addRow([question, option.text, option.votes]);
-    });
-  });
-  // Generate the Excel file
-  const filePath = 'poll_data.xlsx'; // Specify the file path
-  await workbook.xlsx.writeFile(filePath);
-
-  console.log(`Excel file created at ${ filePath }`);
-};
-
-create_excel();
-
-
 
 
 const PORT = process.env.PORT;
