@@ -1,20 +1,20 @@
 const router = require("express").Router();
 const {
-  createPoll,
-  deletePoll,
-  vote,
-  myPolls,
-  votedUsers,
-  findPoll,
-  donate,
-  checkout,
-  webhook,
-  createPollChain,
-  viewPollChains,
-  viewPollChainPolls,
-  deletePollChain,
-  get_user,
-  changeUsersPasswords
+	createPoll,
+	deletePoll,
+	vote,
+	myPolls,
+	votedUsers,
+	findPoll,
+	donate,
+	checkout,
+	webhook,
+	createPollChain,
+	viewPollChains,
+	viewPollChainPolls,
+	deletePollChain,
+	get_user,
+	changeUsersPasswords
 } = require("../controllers/controller.js");
 
 router.post('/create-checkout-session/:price', checkout);

@@ -1,11 +1,11 @@
 // const router = require("express").Router();
 // const {
-//   signup,
-//   findUser,
-//   login,
-//   logout,
-//   forgotPassword,
-//   resetPassword,
+// 	signup,
+// 	findUser,
+// 	login,
+// 	logout,
+// 	forgotPassword,
+// 	resetPassword,
 // } = require("../controllers/authController");
 
 // router.post("/v1/signup", signup);

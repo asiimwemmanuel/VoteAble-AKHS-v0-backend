@@ -18,10 +18,10 @@ const Poll = require('./src/models/polls.js');
 
 dotenv.config({ path: "config.env" });
 app.use(
-  cors({
-    origin: "https://voteable-app.onrender.com",
-    credentials: true,
-  })
+	cors({
+		origin: "https://voteable-app.onrender.com",
+		credentials: true,
+	})
 );
 
 app.use("/webhook", express.raw({ type: "application/json" }));
@@ -39,54 +39,51 @@ const dbURL = process.env.dbURL;
 
 mongoose.set('strictQuery', true);
 mongoose
-  .connect(dbURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to DB"))
-  .catch((err) => {
-    console.log(err.message);
-  });
+	.connect(dbURL, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => console.log("Connected to DB"))
+	.catch((err) => {
+		console.log(err.message);
+	});
 
 // mongoose.set('strictQuery', true);
 // mongoose
-//   .connect(dbURL, {
-//     useNewUrlParser: true,
-//   })
-//   .then(() => console.log("Connected to DB"))
-//   .catch((err) => {
-//     console.log(err.message);
-//   });
+//	 .connect(dbURL, {
+//		 useNewUrlParser: true,
+//	 })
+//	 .then(() => console.log("Connected to DB"))
+//	 .catch((err) => {
+//		 console.log(err.message);
+//	 });
 
 const create_excel = async function () {
-  const Polls = await Poll.find();
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('Poll Data');
+	const Polls = await Poll.find();
+	const workbook = new ExcelJS.Workbook();
+	const worksheet = workbook.addWorksheet('Poll Data');
 
-  // Add headers for the Excel file
-  worksheet.addRow(['Question', 'Option', 'Votes']);
+	// Add headers for the Excel file
+	worksheet.addRow(['Question', 'Option', 'Votes']);
 
-  // Loop through your poll data and add it to the worksheet
-  Polls.forEach(poll => {
-    const question = poll.question;
+	// Loop through your poll data and add it to the worksheet
+	Polls.forEach(poll => {
+		const question = poll.question;
 
-    poll.options.forEach(option => {
-      worksheet.addRow([question, option.text, option.votes]);
-    });
-  });
-  // Generate the Excel file
-  const filePath = 'poll_data.xlsx'; // Specify the file path
-  await workbook.xlsx.writeFile(filePath);
+		poll.options.forEach(option => {
+			worksheet.addRow([question, option.text, option.votes]);
+		});
+	});
+	// Generate the Excel file
+	const filePath = 'poll_data.xlsx'; // Specify the file path
+	await workbook.xlsx.writeFile(filePath);
 
-  console.log(`Excel file created at ${ filePath }`);
+	console.log(`Excel file created at ${ filePath }`);
 };
 
 create_excel();
 
-
-
-
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${ PORT }`);
+	console.log(`Server running on port ${ PORT }`);
 });
